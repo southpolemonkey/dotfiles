@@ -148,3 +148,16 @@ function vscode {
         open -a "Visual Studio Code" "$argPath"
     fi
 }
+
+## Check IP address
+function myip(){
+myip="$(ifconfig | grep 'inet.*netmask.*broadcast')"
+lanip="$(echo $myip | awk '{print $2}')"
+publicip="$(echo $myip | awk '{print $6}')"
+echo 'Your Internal IP: '$lanip
+echo 'Your External IP: '$publicip
+}
+
+#Chinese Support 中文支持
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
