@@ -9,6 +9,7 @@
     ~/.tmux.conf: tmux.conf
     ~/.vimrc: vimrc
     ~/.zshrc: zshrc
+    ~/.gitignore: gitignore
 
 - create:
     - ~/.vim/undo-history
