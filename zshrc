@@ -161,3 +161,9 @@ echo 'Your External IP: '$publicip
 #Chinese Support 中文支持
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
+
+## pyenv configuration
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
