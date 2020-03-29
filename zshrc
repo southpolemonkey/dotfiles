@@ -2,14 +2,15 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/chenxuanrong/.oh-my-zsh"
+# export ZSH="/Users/chenxuanrong/.oh-my-zsh"
+export ZSH="/Users/ronga/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="rongchenxuan"
-# ZSH_THEME="agnoster"
+# ZSH_THEME="rongchenxuan"
+ZSH_THEME="robbyrussell"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -65,13 +66,22 @@ ZSH_THEME="rongchenxuan"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   git
-  zsh-syntax-highlighting
+#   zsh-syntax-highlighting
 #   zsh-autosuggestions
 )
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
+
+## pyenv configuration
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+# jenv configuration
+eval "$(jenv init -)"
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -101,69 +111,38 @@ export LANG=en_US.UTF-8
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # Golang environment variables setup
-export GOPATH=$HOME/go
-export GOROOT=/usr/local/opt/go/libexec
-export PATH=$PATH:$GOPATH/bin
-export PATH=$PATH:$GOROOT/bin
+# export GOPATH=$HOME/go
+# export GOROOT=/usr/local/opt/go/libexec
+# export PATH=$PATH:$GOPATH/bin
+# export PATH=$PATH:$GOROOT/bin
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/chenxuanrong/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/chenxuanrong/google-cloud-sdk/path.zsh.inc'; fi
+# # The next line updates PATH for the Google Cloud SDK.
+# if [ -f '/Users/chenxuanrong/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/chenxuanrong/google-cloud-sdk/path.zsh.inc'; fi
 
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/chenxuanrong/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/chenxuanrong/google-cloud-sdk/completion.zsh.inc'; fi
+# # The next line enables shell command completion for gcloud.
+# if [ -f '/Users/chenxuanrong/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/chenxuanrong/google-cloud-sdk/completion.zsh.inc'; fi
 
-# Find public ip address
-alias publicip="curl ipecho.net/plain; echo"
+# # Find public ip address
+# alias publicip="curl ipecho.net/plain; echo"
 
-# Zeppelin
-export ZEPPELIN_HOME=/Users/chenxuanrong/Downloads/zeppelin-0.8.1-bin-all
-alias start_zeppelin="$ZEPPELIN_HOME/bin/zeppelin-daemon.sh start"
-alias stop_zeppelin="$ZEPPELIN_HOME/bin/zeppelin-daemon.sh stop"
+# # Zeppelin
+# export ZEPPELIN_HOME=/Users/chenxuanrong/Downloads/zeppelin-0.8.1-bin-all
+# alias start_zeppelin="$ZEPPELIN_HOME/bin/zeppelin-daemon.sh start"
+# alias stop_zeppelin="$ZEPPELIN_HOME/bin/zeppelin-daemon.sh stop"
 
-# aws
-export PATH=/usr/local/bin/python3:$PATH
+# # aws
+# export PATH=/usr/local/bin/python3:$PATH
 
 # The next line enables Confluent command
 # export CONFLUENT_HOME=/Users/chenxuanrong/confluent-5.3.0/confluent
 # export PATH="${CONFLUENT_HOME}/bin:$PATH"
 
-# tabtab source for serverless package
-# uninstall by removing these lines or running `tabtab uninstall serverless`
-[[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
-# tabtab source for sls package
-# uninstall by removing these lines or running `tabtab uninstall sls`
-[[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
-# tabtab source for slss package
-# uninstall by removing these lines or running `tabtab uninstall slss`
-[[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh
-
-# The follow code enables open vscode in terminal
-function vscode {
-    if [[ $# = 0 ]]
-    then
-        open -a "Visual Studio Code"
-    else
-        local argPath="$1"
-        [[ $1 = /* ]] && argPath="$1" || argPath="$PWD/${1#./}"
-        open -a "Visual Studio Code" "$argPath"
-    fi
-}
-
-## Check IP address
-function myip(){
-myip="$(ifconfig | grep 'inet.*netmask.*broadcast')"
-lanip="$(echo $myip | awk '{print $2}')"
-publicip="$(echo $myip | awk '{print $6}')"
-echo 'Your Internal IP: '$lanip
-echo 'Your External IP: '$publicip
-}
-
-#Chinese Support 中文支持
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
-
-## pyenv configuration
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+# # tabtab source for serverless package
+# # uninstall by removing these lines or running `tabtab uninstall serverless`
+# [[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
+# # tabtab source for sls package
+# # uninstall by removing these lines or running `tabtab uninstall sls`
+# [[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
+# # tabtab source for slss package
+# # uninstall by removing these lines or running `tabtab uninstall slss`
+# [[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh   
