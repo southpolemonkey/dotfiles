@@ -127,8 +127,13 @@ export LANG=en_US.UTF-8
 
 # # Zeppelin
 # export ZEPPELIN_HOME=/Users/chenxuanrong/Downloads/zeppelin-0.8.1-bin-all
-# alias start_zeppelin="$ZEPPELIN_HOME/bin/zeppelin-daemon.sh start"
-# alias stop_zeppelin="$ZEPPELIN_HOME/bin/zeppelin-daemon.sh stop"
+export ZEPPELIN_HOME=/Users/ronga/Downloads/zeppelin-0.9.0-preview1-bin-all
+# export ZEPPELIN_HOME=/Users/ronga/Downloads/zeppelin-0.8.2-bin-netinst
+
+alias start_zeppelin="$ZEPPELIN_HOME/bin/zeppelin-daemon.sh start"
+alias stop_zeppelin="$ZEPPELIN_HOME/bin/zeppelin-daemon.sh stop"
+
+export SPARK_HOME=/usr/local/Cellar/apache-spark/2.4.5
 
 # # aws
 # export PATH=/usr/local/bin/python3:$PATH
@@ -146,3 +151,207 @@ export LANG=en_US.UTF-8
 # # tabtab source for slss package
 # # uninstall by removing these lines or running `tabtab uninstall slss`
 # [[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh   
+
+# Foxtel proxy
+PROXYHOST=localhost
+PROXYPORT=3128
+function pxy {
+  echo 'Enabling http_proxy settings'
+  export http_proxy="http://${PROXYHOST}:${PROXYPORT}"
+  export HTTP_PROXY=$http_proxy
+  export https_proxy=$http_proxy
+  export HTTPS_PROXY=$http_proxy
+  unset NO_PROXY
+  unset no_proxy
+  export JAVA_OPTS="-Dhttp.proxyHost=${PROXYHOST} -Dhttp.proxyPort=${PROXYPORT} -Dhttps.proxyHost=${PROXYHOST} -Dhttps.proxyPort=${PROXYPORT} -Dcom.sun.net.ssl.checkRevocation=false"
+  export SBT_OPTS="$JAVA_OPTS"
+}
+ 
+function pxn {
+  unset http_proxy HTTP_PROXY https_proxy HTTPS_PROXY no_proxy NO_PROXY JAVA_OPTS SBT_OPTS
+  echo 'Disabling http_proxy settings'
+}
+
+alias sn=~/Jarvis/nix-setup/sn
+
+
+# copy from Perry Leigh
+
+# This stuff at the top is hacked down from oh-my-zsh. Some of it may be redundant, but life is short
+# autoload -U compinit promptinit zcalc zsh-mime-setup
+# compinit
+# promptinit
+# zsh-mime-setup
+# setopt AUTO_CD
+# setopt AUTO_PUSHD
+# setopt AUTO_NAME_DIRS
+# setopt GLOB_COMPLETE
+# setopt PUSHD_MINUS
+# setopt PUSHD_IGNORE_DUPS
+# setopt ZLE
+# setopt NO_HUP
+# setopt NO_FLOW_CONTROL
+# setopt NO_BEEP
+# setopt NO_CASE_GLOB
+# setopt NUMERIC_GLOB_SORT
+# setopt EXTENDED_GLOB
+# setopt RC_EXPAND_PARAM
+# autoload run-help
+# HELPDIR=~/zsh_help
+# zstyle ':completion::complete:*' use-cache 1
+# zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+# zstyle ':completion:*' verbose yes
+# zstyle ':completion:*:descriptions' format '%B%d%b'
+# zstyle ':completion:*:messages' format '%d'
+# zstyle ':completion:*:warnings' format 'No matches for: %d'
+# zstyle ':completion:*' group-name ''
+# zstyle ':completion:*' completer _expand _complete _approximate _ignored
+# zstyle ':completion:*' auto-description 'specify: %d'
+# zstyle ':completion:*:default' list-prompt '%S%M matches%s'
+# zstyle ':completion:*:default' menu 'select=0'
+# zstyle ':completion:*' file-sort modification reverse
+# zstyle ':completion:*' list-colors "=(#b) #([0-9]#)*=36=31"
+# unsetopt LIST_AMBIGUOUS
+# setopt  COMPLETE_IN_WORD
+# zstyle ':completion:*:manuals' separate-sections true
+# zstyle ':completion:*' list-separator 'fREW'
+# zstyle ':completion:*:windows' menu on=0
+# zstyle ':completion:*:expand:*' tag-order all-expansions
+# zstyle ':completion:*:approximate:*' max-errors 'reply=(  $((  ($#PREFIX+$#SUFFIX)/3  ))  )'
+# zstyle ':completion:*:corrections' format '%B%d (errors %e)%b'
+# zstyle ':completion::*:(rm|vi):*' ignore-line true
+# zstyle ':completion:*' ignore-parents parent pwd
+# zstyle ':completion::approximate*:*' prefix-needed false
+# HISTFILE=~/.zshhistory
+# SAVEHIST=10000
+# HISTSIZE=10000
+# setopt APPEND_HISTORY
+# setopt SHARE_HISTORY
+# setopt HIST_IGNORE_DUPS
+# setopt HIST_IGNORE_ALL_DUPS
+# setopt HIST_REDUCE_BLANKS
+# setopt HIST_IGNORE_SPACE
+# setopt HIST_NO_STORE
+# setopt HIST_VERIFY
+# setopt EXTENDED_HISTORY
+# setopt HIST_SAVE_NO_DUPS
+# setopt HIST_EXPIRE_DUPS_FIRST
+# setopt HIST_FIND_NO_DUPS
+# autoload -U colors
+# colors
+# setopt PROMPT_SUBST
+# fpath=(~/.zsh/functions $fpath)
+# compctl -K _repo_complete spclone
+# typeset -ga preexec_functions
+# typeset -ga precmd_functions
+# typeset -ga chpwd_functions
+# preexec_functions+='preexec_update_git_vars'
+# precmd_functions+='precmd_update_git_vars'
+# chpwd_functions+='chpwd_update_git_vars'
+ 
+# export PS1=$'%{\e[0;31m%} λ $(echo "$PWD" | sed "s#/Users/${USER}#\~#g")/%{\e[0m%}'
+# zle_highlight=(default:bold,fg='#2020ff')
+# autoload -U history-search-end
+# zle -N history-beginning-search-backward-end history-search-end
+# zle -N history-beginning-search-forward-end history-search-end
+# bindkey "\e[A" history-beginning-search-backward-end
+# bindkey "\e[B" history-beginning-search-forward-end
+# bindkey \^U backward-kill-line
+# bindkey "[D" backward-word
+# bindkey "[C" forward-word
+ 
+# bindkey "^[[3~" delete-char
+# export PATH=$PATH:$HOME/bin
+ 
+alias ll="ls -lAh"
+alias 2=". 2"
+alias c=". cdl"
+alias dr="docker"
+alias drc="docker-compose"
+alias kc="kubectl"
+alias kcg="kubectl get"
+alias kcp="kubectl get pod"
+alias kcl="kubectl logs"
+alias kclf="kubectl logs --follow"
+alias hall="history 1 | cut -c8- | sort | uniq"
+alias gr="git remote -v"
+alias tf="terraform"
+ 
+if [ $commands[kubectl] ]; then
+  source <(kubectl completion zsh)
+fi
+autoload -U +X bashcompinit && bashcompinit
+precmd() {
+  echo -ne "\e]1;${PWD##*/}\a"
+}
+ 
+# test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+# function iterm2_print_user_vars() {
+#   if [[ -z ${snshells} ]]; then
+#     iterm2_set_user_var badgeText " "
+#     #iterm2_set_user_var badgeText "${PWD##*/}"
+#   else
+#       # nix shell active
+#     iterm2_set_user_var badgeText "${snshells}"
+#   fi
+#     iterm2_set_user_var gitBranch $((git branch 2> /dev/null) | grep \* | cut -c3-)
+# }
+ 
+
+# if [[ -z "${SN_NIX_SHELL_shellutil}" ]]; then
+#   # not in Nix shell
+# else
+#   MY_SCRIPT_VARIABLE="${DEPLOY_ENV}"
+#   if [[ $(ps -e | grep cntlm | wc -l) -ge 2 ]]; then
+#   #echo "(cntlm is already running)"
+#   else
+#   echo "Starting cntlm"
+#   cntlm -c ~/work/cntlm_proxy/cntlm.conf
+#   fi
+# fi
+# pxy
+ 
+# if [ -f "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then
+#   if [ "$NIX_PATH" = "" ]; then
+#     #echo Initialising Nix
+#     source $HOME/.nix-profile/etc/profile.d/nix.sh
+#     source $HOME/nix-zsh-completions/nix-zsh-completions.plugin.zsh
+#     fpath=($HOME/nix-zsh-completions $fpath)
+#     autoload -U compinit && compinit
+#   else
+#     #echo Nix is already initialised
+#   fi
+# fi
+ 
+# if [[ ! -z ${LPZSH_AWS_COMPLETER} ]]; then
+#   echo Enabling AWS CLI completion
+#   source ${LPZSH_AWS_COMPLETER}
+# fi
+ 
+# if [[ ! -z ${LPZSH_GCP_COMPLETER} ]]; then
+#   echo Enabling GCP CLI completion
+#   source ${LPZSH_GCP_COMPLETER}
+# fi
+ 
+# if [[ ! -z ${LPZSH_DOCKER} ]]; then
+#   echo Enabling docker and docker-compose completion
+#   fpath=(${LPZSH_DOCKER} ${LPZSH_DOCKER_COMPOSE} $fpath)
+#   autoload compinit && compinit -i
+# fi
+ 
+# # cd ; git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+# if [[ ! -z ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
+#   #echo Enabling smart completion
+#   source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+# fi
+ 
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ......="cd ../../../../.."
+
+# nix configuration
+if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then
+  source $HOME/.nix-profile/etc/profile.d/nix.sh
+fi
