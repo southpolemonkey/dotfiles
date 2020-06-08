@@ -1,0 +1,249 @@
+" Enable filetype plugins
+filetype plugin on
+filetype indent on
+
+set shiftwidth=4
+set tabstop=4
+set softtabstop=4
+set expandtab
+" set omnifunc=syntaxcomplete#Complete
+autocmd FileType hs,haskell setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType h,cc,cpp,hpp setlocal shiftwidth=4 tabstop=4 softtabstop=4
+autocmd FileType typescript setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType javascript setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType css,html,json,yaml setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType java setlocal omnifunc=javacomplete#Complete
+autocmd filetype crontab setlocal nobackup nowritebackup
+
+let mapleader = ","
+let maplocalleader = ","
+let g:mapleader = ","
+
+set encoding=utf-8
+scriptencoding utf-8
+set mouse=a
+set nu
+set clipboard=unnamed
+set splitbelow
+set splitright
+set sessionoptions-=options
+" set autochdir
+
+" Set to auto read when a file is changed from the outside
+set autoread
+" A buffer becomes hidden when it is abandoned
+set hid
+" Configure backspace so it acts as it should act
+set backspace=eol,start,indent
+set whichwrap+=<,>,h,l
+" Ignore case when searching
+set ignorecase
+" When searching try to be smart about cases
+set smartcase
+" Highlight search results
+set hlsearch
+" Makes search act like search in modern browsers
+set incsearch
+" Don't redraw while executing macros (good performance config)
+set lazyredraw
+" For regular expressions turn magic on
+set magic
+" Show matching brackets when text indicator is over them
+set showmatch
+" How many tenths of a second to blink when matching brackets
+set mat=10
+" Add a bit extra margin to the left
+set foldcolumn=1
+" Linebreak on 500 characters
+set lbr
+set tw=500
+
+set si "Smart indent
+set ai "Auto indent
+"set wrap "Wrap lines
+
+" Buffers
+" This is almost a must if you wish to use buffers in this way.
+set hidden
+
+" Key remaps
+nmap <leader>w :w!<cr>
+nmap <leader>q :q<cr>
+nmap <leader><leader>r :!
+map <leader>l :bnext<cr>
+map <leader>h :bprevious<cr>
+map <F2> :!
+map <C-k> <C-w>k
+map <C-j> <C-w>j
+map <C-l> <C-w>l
+map <C-h> <C-w>h
+
+" To open a new empty buffer
+" This replaces :tabnew which I used to bind to this mapping
+nmap <leader>T :enew<cr>
+" Move to the next buffer
+nmap <leader>l :bnext<CR>
+" Move to the previous buffer
+nmap <leader>h :bprevious<CR>
+" Close the current buffer and move to the previous one
+" This replicates the idea of closing a tab
+nmap <leader>bq :bp <BAR> bd #<CR>
+" Show all open buffers and their status
+nmap <leader>bl :ls<CR>
+
+" Send last command to tmux and execute
+nmap \r :!tmux send-keys -t 1 C-p C-j <CR><CR>
+
+" Use escape to go back to normal mode
+tnoremap <Esc> <C-\><C-N>
+nmap <leader>te :e term://zsh <cr> i
+nmap <leader>tv :vsplit term://zsh <cr> i
+nmap <leader>tx :split term://zsh <cr> i
+
+""""""""""""""""""""""""""""""
+" => Visual mode related
+""""""""""""""""""""""""""""""
+" Visual mode pressing * or # searches for the current selection
+" Super useful! From an idea by Michael Naumann
+"vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
+"vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
+
+
+
+" Delete trailing white space on save, useful for Python and CoffeeScript ;)
+" func! DeleteTrailingWS()
+  " exe 'normal mz'
+  " %s/\s\+$//ge
+  " exe 'normal `z'
+" endfunc
+" autocmd BufWrite *.py :call DeleteTrailingWS()
+" autocmd BufWrite *.coffee :call DeleteTrailingWS()
+" autocmd BufWrite *.hs :call DeleteTrailingWS()
+" autocmd BufWrite *.cpp,*.hpp,*.c,*.h :call DeleteTrailingWS()
+" autocmd BufWrite *.js :call DeleteTrailingWS()
+
+
+
+""""""""""""""""""
+" Plugin Configs "
+""""""""""""""""""
+
+"Nerdcommenter"
+let NERDSpaceDelims=1
+
+"Tagbar"
+"nnoremap <silent> <Leader>tt :TagbarToggle<CR>
+let g:tagbar_expand = 1
+let g:tagbar_width = 35
+nnoremap <silent> <F8> :TagbarToggle<CR>
+"autocmd VimEnter * nested :call tagbar#autoopen(1)
+
+"ctrlp:
+let g:ctrlp_extentions = ['tag']
+let g:ctrlp_custom_ignore = '\v[\/](\.(git|hg|svn)|node_modules)$'
+
+"ctags"
+nnoremap <leader>. :CtrlPTag<cr>
+map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
+map <M-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
+
+"the silver searcher"
+let g:ackprg = 'ag --nogroup --nocolor --column'
+
+"fzf.vim"
+" nmap ; :Buffers<CR>
+nmap <C-p> :Files<CR>
+" nmap <C-o> :Tags<CR>
+source ~/dotfiles/nvimrc.fzf
+
+"Easymotion"
+map  / <Plug>(easymotion-sn)
+omap / <Plug>(easymotion-tn)
+
+"vim-airline"
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline_theme = 'cool'
+
+"vim go"
+"set completeopt-=preview
+
+"ALE"
+" let g:ale_sign_column_always = 1
+" let g:ale_lint_on_text_changed = 'never'
+" let g:ale_lint_on_enter = 0
+" let g:ale_set_quickfix = 1
+" let g:airline#extensions#ale#enabled = 1
+" let g:ale_linters = {'javascript': ['eslint'], 'rust': ['rustc'], 'python3': ['pylint']}
+
+"haskellmode-vim"
+"au BufEnter *.hs compiler ghc
+"au FileType haskell let b:ghc_staticoptions = '-isrc'
+":let g:haddock_browser="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+
+"Coc
+source ~/dotfiles/nvimrc.coc
+
+" Autocomplete
+"deoplete"
+"source ~/dotfiles/nvimrc.deoplete
+
+"delimitMate"
+" let delimitMate_expand_cr = 1
+
+"vim-gitgutter"
+let g:gitgutter_realtime = 0
+let g:gitgutter_eager = 0
+
+"vim-markdown"
+let g:vim_markdown_folding_disabled = 1
+
+"Pymode"
+let g:pymode_python='python3'
+
+"vim-markdown"
+let g:vim_markdown_folding_disabled = 1
+
+"""""""""""""""""""
+" Font and Colors "
+"""""""""""""""""""
+"let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+"let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+"let &t_ZH="\e[3m"
+"let &t_ZR="\e[23m"
+"set t_ZH=[3m
+"set t_ZR=[23m
+set t_8f=[38;2;%lu;%lu;%lum
+set t_8b=[48;2;%lu;%lu;%lum
+set colorcolumn=80
+
+if has("termguicolors") && $TERM_PROGRAM ==# "iTerm.app"
+    set termguicolors
+    set background=light
+    colorscheme github
+    let g:airline_theme = 'tomorrow'
+endif
+
+if $TERM_PROGRAM ==# 'Apple_Terminal' || $TERM_PROGRAM ==# "Hyper.app"
+    set background=dark
+    colorscheme gruvbox
+    let g:airline_theme = 'tomorrow'
+endif
+
+if has('gui_running')
+  set gcr=n:blinkon0
+  set gcr+=i:blinkwait700-blinkon700-blinkoff700
+  "set macligatures
+  set guifont=UbuntuMono\ Nerd\ Font:h17
+  set linespace=2
+  set background=light
+  "set transparency=10
+  colorscheme soda
+  "set fullscreen
+  "hi Normal ctermbg=NONE
+endif
+
+" highlight Normal ctermbg=NONE guibg=NONE
+" highlight NonText ctermbg=NONE guibg=NONE
+" highlight Comment gui=italic
+" highlight Comment cterm=italic
