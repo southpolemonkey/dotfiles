@@ -56,8 +56,9 @@ $ eval "$(ssh-agent -s)"
 
 ### Python
 
-- pyenv
 ```bash
+brew install pyenv
+
 $pyenv install 3.7.X
 $pyenv init
 $pyenv global 3.7.X 
@@ -67,18 +68,25 @@ $brew install pyenv-virtualenv
 $eval "$(pyenv init -)"
 $eval "$(pyenv virtualenv-init -)"
 ```
+
 - jupyter notebook
 - install requirements.txt
 
 ### Java
 
-- jdk
+`brew install jenv`
+```bash
+  export PATH="$HOME/.jenv/bin:$PATH"
+  eval "$(jenv init -)
+```
 
 ### Golang
 
 ### Scala
+
 - sbt
 - scala
 
 ## Reference
+
 1. https://sourabhbajaj.com/mac-setup/
