@@ -170,7 +170,7 @@ myip="$(dig +short myip.opendns.com @resolver1.opendns.com)"
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 # side-project alias
-alias sidep="cd /Users/chenxuanrong/Documents/side_project/"
+alias sp="cd /Users/chenxuanrong/Documents/side_project/"
 
 ###-begin-npm-completion-###
 #
@@ -232,3 +232,51 @@ alias sidep="cd /Users/chenxuanrong/Documents/side_project/"
 #   compctl -K _npm_completion npm
 # fi
 # ###-end-npm-completion-###
+#
+#
+ function gssh() {
+  readonly local name="$1"
+  local filter result instance_name zone
+
+  printf "🖥️   Connecting to instance: %s\\n\\n" "$name"
+
+  filter="(name:${name} AND status:RUNNING)"
+  result="$(gcloud compute instances list --sort-by=-createTime --format='value(name,zone)' --filter="$filter")"
+  instance_name="$(echo "$result" | awk 'NR==1 {print $1}')"
+  zone="$(echo "$result" | awk 'NR==1 {print $2}')"
+
+  if [ -n "$instance_name" ]; then
+    gcloud beta compute ssh "$name" --zone "$(basename "$zone")"
+  else
+    printf "❌  Instance not found\\n"
+  fi
+}
+
+alias cls_pyc="find . -name '*.pyc' -delete && find . -name "__pycache__" -delete"
+ 
+alias kc="kubectl"
+
+zk_up() {
+  zookeeper-server-start /usr/local/etc/kafka/zookeeper.properties  > /dev/null 2>&1 &
+}
+
+zk_down() {
+  zookeeper-server-stop /usr/local/etc/kafka/zookeeper.properties
+}
+
+kafka_up() {
+  zk_up
+  echo "zookeeper start..."
+  kafka-server-start /usr/local/etc/kafka/server.properties > /dev/null 2>&1 &
+  echo "kafka server start..."
+}
+
+kafka_down() {
+  zk_down
+  echo "zookeeper stop..."
+  kafka-server-stop /usr/local/etc/kafka/server.properties
+  echo "kafka server stop..."
+}
+
+
+
