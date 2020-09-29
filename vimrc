@@ -5,6 +5,7 @@ set tabstop=4
 set softtabstop=4
 set expandtab
 set number
+set mouse=a
 
 " Configuration for vim-plug
 call plug#begin('~/.vim/plugged')
