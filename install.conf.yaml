@@ -10,7 +10,8 @@
     ~/.vimrc: vimrc
     ~/.zshrc: zshrc
     ~/.gitignore: gitignore
-    ~/pip.ini: pip.ini
+    # ~/pip.ini: pip.ini
+    ~/pip.conf: pip.conf
 
 - create:
     - ~/.vim/undo-history

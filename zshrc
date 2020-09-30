@@ -10,7 +10,7 @@ export ZSH="/Users/ronga/.oh-my-zsh"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 # ZSH_THEME="rongchenxuan"
-ZSH_THEME="robbyrussell"
+ZSH_THEME="rongchenxuan"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -65,9 +65,11 @@ ZSH_THEME="robbyrussell"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  git
-#   zsh-syntax-highlighting
-#   zsh-autosuggestions
+   git
+   zsh-syntax-highlighting
+   zsh-autosuggestions
+   docker
+   docker-compose
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -135,6 +137,11 @@ alias stop_zeppelin="$ZEPPELIN_HOME/bin/zeppelin-daemon.sh stop"
 
 export SPARK_HOME=/usr/local/Cellar/apache-spark/2.4.5
 
+# nix configuration
+if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then
+  source $HOME/.nix-profile/etc/profile.d/nix.sh
+fi
+
 # # aws
 # export PATH=/usr/local/bin/python3:$PATH
 
@@ -155,6 +162,7 @@ export SPARK_HOME=/usr/local/Cellar/apache-spark/2.4.5
 # Foxtel proxy
 PROXYHOST=localhost
 PROXYPORT=3128
+
 function pxy {
   echo 'Enabling http_proxy settings'
   export http_proxy="http://${PROXYHOST}:${PROXYPORT}"
@@ -165,14 +173,15 @@ function pxy {
   unset no_proxy
   export JAVA_OPTS="-Dhttp.proxyHost=${PROXYHOST} -Dhttp.proxyPort=${PROXYPORT} -Dhttps.proxyHost=${PROXYHOST} -Dhttps.proxyPort=${PROXYPORT} -Dcom.sun.net.ssl.checkRevocation=false"
   export SBT_OPTS="$JAVA_OPTS"
+  export MAVEN_OPTS="$JAVA_OPTS"
 }
  
 function pxn {
-  unset http_proxy HTTP_PROXY https_proxy HTTPS_PROXY no_proxy NO_PROXY JAVA_OPTS SBT_OPTS
+  unset http_proxy HTTP_PROXY https_proxy HTTPS_PROXY no_proxy NO_PROXY JAVA_OPTS SBT_OPTS MAVEN_OPTS
   echo 'Disabling http_proxy settings'
 }
 
-alias sn=~/Jarvis/nix-setup/sn
+alias sn=~/dev/foxtel/nix-setup/sn
 
 
 # copy from Perry Leigh
@@ -276,14 +285,14 @@ alias kclf="kubectl logs --follow"
 alias hall="history 1 | cut -c8- | sort | uniq"
 alias gr="git remote -v"
 alias tf="terraform"
- 
-if [ $commands[kubectl] ]; then
-  source <(kubectl completion zsh)
-fi
-autoload -U +X bashcompinit && bashcompinit
-precmd() {
-  echo -ne "\e]1;${PWD##*/}\a"
-}
+alias jarvis="cd /Users/ronga/dev/foxtel/jarvis" 
+# if [ $commands[kubectl] ]; then
+#   source <(kubectl completion zsh)
+# fi
+# autoload -U +X bashcompinit && bashcompinit
+# precmd() {
+#   echo -ne "\e]1;${PWD##*/}\a"
+# }
  
 # test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 # function iterm2_print_user_vars() {
@@ -350,8 +359,64 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias ......="cd ../../../../.."
+#alias cd..="cd .."
+#alias cd...="cd ../.."
+#alias cd...="cd ../.."
+alias gi="grep -i"
+alias l="ls -al"
+alias lm="ls -al | more"
+alias lf="ls -FG"
+alias h=history
+alias hm="history | more"
+alias lhs="ls -Slh"
 
-# nix configuration
-if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then
-  source $HOME/.nix-profile/etc/profile.d/nix.sh
-fi
+# places
+alias ft="cd /Users/ronga/dev/foxtel"
+
+# file finding
+alias ff="find . -type f -name "
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/ronga/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ronga/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/ronga/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ronga/google-cloud-sdk/completion.zsh.inc'; fi
+
+export GOOGLE_APPLICATION_CREDENTIALS="/Users/ronga/.config/gcloud/application_default_credentials.json"
+source <(kubectl completion zsh)
+
+export CLOUDSDK_CONTAINER_CLUSTER="gke-metis-dev"
+
+alias tf="terraform"
+
+alias sbt-init=/Users/ronga/dev/foxtel/nix-setup/sbtmkdirs.sh
+
+# list file numbers under each directory
+alias fn="find . -type f | cut -d/ -f2 |uniq -c |sort -nr" 
+
+# dbt auto completion
+source ~/.dbt-completion.bash
+
+function dbt_run_changed() {
+    children=$1
+    models=$(git diff --name-only | grep '\.sql$' | awk -F '/' '{ print $NF }' | sed "s/\.sql$/${children}/g" | tr '\n' ' ')
+    echo "Running models: ${models}"
+    dbt run --models $models
+}
+
+function cycle_logs() {
+  suffix=$(date '+%Y-%m-%dT%H:%M:%S')
+  mv -v logs/dbt.log logs/dbt.log.${suffix}
+}
+
+alias gclog="gcloud auth application-default login"
+alias kk=kubectl
+autoload bashcompinit
+bashcompinit
+eval "$(register-python-argcomplete airflow)"
+alias cls_pyc="find . -name '*.pyc' -delete & find . -name '__pycache__' -delete"
+export PYTHONPATH="/Users/ronga/open_source/property_analysis/src/"
+alias gpro="gcloud config get-value project"
+alias gau="gcloud auth list"
+
+alias gcomposer="gcloud composer environments describe cloud-composer-dev --location australia-southeast1"
