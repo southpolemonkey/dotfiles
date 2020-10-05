@@ -16,6 +16,7 @@ log/*.log
 rerun.txt
 tags
 tmp/**/*
+.idea
 
 # General
 .DS_Store
