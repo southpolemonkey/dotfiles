@@ -2,14 +2,15 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/chenxuanrong/.oh-my-zsh"
+# export ZSH="/Users/chenxuanrong/.oh-my-zsh"
+export ZSH="/Users/alexrong/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="rongchenxuan"
-# ZSH_THEME="agnoster"
+# ZSH_THEME="rongchenxuan"
+ZSH_THEME="agnoster"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -151,7 +152,7 @@ echo 'Your External IP: '$publicip
 
 ## pyenv configuration
 export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
+#export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 export PATH="$HOME/.jenv/bin:$PATH"
@@ -278,5 +279,12 @@ kafka_down() {
   echo "kafka server stop..."
 }
 
+
+export LDFLAGS="-L/usr/local/opt/ncurses/lib"
+export CPPFLAGS="-I/usr/local/opt/ncurses/include"
+
+alias ll="ls -l"
+alias ..="cd .."
+alias ...="cd ../.."
 
 
