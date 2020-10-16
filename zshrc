@@ -287,4 +287,31 @@ alias ll="ls -l"
 alias ..="cd .."
 alias ...="cd ../.."
 
+alias bt="cd /Users/alexrong/brighte/"
+alias os="cat /etc/os-release"
+
+function list_users() {
+  if [[ "$OSTYPE" == "linux-gnu"* ]]; then cut -d: -f1 /etc/passwd;
+  elif [[ "$OSTYPE" == "darwin"* ]]; then dscl . list /Users | grep -v "^_" 
+  else echo "unknown os version"
+  fi
+}
+
+# aws cli helper
+function list_instances() {
+  aws ec2 describe-instances | jq '.Reservations[].Instances[] | {InstanceType, Tags, InstanceId}'
+}
+
+
+# pip zsh completion start
+function _pip_completion {
+  local words cword
+  read -Ac words
+  read -cn cword
+  reply=( $( COMP_WORDS="$words[*]" \
+             COMP_CWORD=$(( cword-1 )) \
+             PIP_AUTO_COMPLETE=1 $words[1] 2>/dev/null ))
+}
+compctl -K _pip_completion pip
+# pip zsh completion end
 
