@@ -315,3 +315,8 @@ function _pip_completion {
 compctl -K _pip_completion pip
 # pip zsh completion end
 
+autoload -U +X compinit && compinit
+autoload -U +X bashcompinit && bashcompinit
+source ~/.dbt-completion.bash
+export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
+export PATH="/usr/local/opt/postgresql@9.6/bin:$PATH"
