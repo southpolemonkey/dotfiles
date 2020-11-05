@@ -297,6 +297,14 @@ function list_users() {
   fi
 }
 
+function os_version() {
+  if [[ "$OSTYPE" == "linux-gnu"* ]]; then uname -r;
+  elif [[ "$OSTYPE" == "darwin"* ]]; then sw_vers -productVersion;
+  else echo "unknown os version"
+  fi
+}
+
+
 # aws cli helper
 function list_instances() {
   aws ec2 describe-instances | jq '.Reservations[].Instances[] | {InstanceType, Tags, InstanceId}'
@@ -320,3 +328,18 @@ autoload -U +X bashcompinit && bashcompinit
 source ~/.dbt-completion.bash
 export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
 export PATH="/usr/local/opt/postgresql@9.6/bin:$PATH"
+
+alias sp="cd ~/side_project/"
+alias wget="wget --no-check-certificate"
+
+alias up_airflow_dev="aws ec2 start-instances --instance-ids i-070f3b145665c7911"
+alias down_airflow_dev="aws ec2 stop-instances --instance-ids i-070f3b145665c7911"
+alias connect_db="nc -zv analytics-dev.cznmor934jee.ap-southeast-2.rds.amazonaws.com 5432"
+
+complete -o nospace -C /usr/local/bin/terraform terraform
+
+
+function cycle_logs() {
+  suffix=$(date '+%Y-%m-%dT%H:%M:%S')
+  find logs/ -name "*.log" -exec mv -v {} {}.${suffix} \;
+}
