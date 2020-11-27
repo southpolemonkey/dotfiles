@@ -6,3 +6,6 @@ set softtabstop=4
 set expandtab
 set number
 set mouse=a
+
+syntax enable
+colorscheme monokai
