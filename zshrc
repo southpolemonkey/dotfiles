@@ -344,3 +344,38 @@ function cycle_logs() {
   suffix=$(date '+%Y-%m-%dT%H:%M:%S')
   find logs/ -name "*.log" -exec mv -v {} {}.${suffix} \;
 }
+
+# airflow autocomplete
+# autoload bashcompinit
+#bashcompinit
+#eval "$(register-python-argcomplete airflow)"
+
+# docker shortcuts
+alias dps="docker ps"
+export PATH="/usr/local/opt/postgresql@11/bin:$PATH"
+
+function list_disk_uage() {
+  du -hsc * | sort -r -h 
+}
+
+# aws helper functions
+function rds_endpoints {
+  aws rds describe-db-instances | jq -r '.DBInstances[] | { (.DBInstanceIdentifier):(.Endpoint.Address + ":" + (.Endpoint.Port|tostring))}'
+}
+
+function lambda_settings {
+  aws lambda list-functions | jq ".Functions | group_by(.Runtime)|[.[]|{ (.[0].Runtime): [.[]|{ name: .FunctionName, timeout: .Timeout, memory: .MemorySize }] }]"
+} 
+
+
+function dbt_run_changed() {
+    children=$1
+    models=$(git diff --name-only | grep '\.sql$' | awk -F '/' '{ print $NF }' | sed "s/\.sql$/${children}/g" | tr '\n' ' ')
+    if [ -n "$models" ]; then
+      echo "Running models: ${models}"
+      dbt run --models $models
+    else
+      echo "No changes detected"
+    fi
+}
+
