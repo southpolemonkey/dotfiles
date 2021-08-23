@@ -367,6 +367,10 @@ function lambda_settings {
   aws lambda list-functions | jq ".Functions | group_by(.Runtime)|[.[]|{ (.[0].Runtime): [.[]|{ name: .FunctionName, timeout: .Timeout, memory: .MemorySize }] }]"
 } 
 
+function list_ecr_repo {
+  aws ecr describe-repositories | jq ".repositories[] | {repositoryName: .repositoryName, repositoryUri: .repositoryUri, createdAt:.createdAt}"
+}
+
 
 function dbt_run_changed() {
     children=$1
@@ -379,3 +383,32 @@ function dbt_run_changed() {
     fi
 }
 
+
+export AWS_ACCESS_KEY_ID=$(aws --profile default configure get aws_access_key_id)
+export AWS_SECRET_ACCESS_KEY=$(aws --profile default configure get aws_secret_access_key)
+
+alias dcu="docker-compose up -d"
+alias dcd="docker-compose down"
+
+# Airflow autocompletion
+# autoload bashcompinit
+# bashcompinit
+# eval "$(register-python-argcomplete airflow)"
+
+autoload -Uz compinit
+zstyle ':completion:*' menu select
+fpath+=~/.zfunc
+
+export HOMEBREW_NO_AUTO_UPDATE=1
+
+function addword() {
+  echo $1 >> ~/study_notes/english.txt
+}
+
+
+alias speedtest-cli=/Users/alexrong/side_project/speedtest-cli-demo/speedtest-cli-demo/bin/speedtest-cli
+
+# added by Snowflake SnowSQL installer v1.2
+export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
+
+alias week="date +%V"
