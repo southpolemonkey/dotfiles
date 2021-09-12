@@ -288,7 +288,6 @@ alias ll="ls -l"
 alias ..="cd .."
 alias ...="cd ../.."
 
-alias bt="cd /Users/alexrong/brighte/"
 alias os="cat /etc/os-release"
 
 function list_users() {
@@ -404,9 +403,6 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 function addword() {
   echo $1 >> ~/study_notes/english.txt
 }
-
-
-alias speedtest-cli=/Users/alexrong/side_project/speedtest-cli-demo/speedtest-cli-demo/bin/speedtest-cli
 
 # added by Snowflake SnowSQL installer v1.2
 export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH

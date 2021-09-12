@@ -9,9 +9,12 @@ map <silent><F4> :set relativenumber!<CR>
 set mouse=a
 
 syntax enable
-colorscheme monokai
+colorscheme monokai 
 
-set diffopt+=vertical
+if &diff
+    set diffopt-=internal
+    set diffopt+=vertical
+endif
 
 call plug#begin('~/.vim/plugged')
 
