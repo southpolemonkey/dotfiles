@@ -96,3 +96,10 @@ $eval "$(pyenv virtualenv-init -)"
 to make option+arrow key shortcut work in iterm, go to Profiles-->Keys
 Add ⌥←, Add Action: Send Escape Sequence: Esc+: b
 Add ⌥→, Add Action: Send Escape Sequence: Esc+: f
+
+## vim 
+
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+:PlugInstall
