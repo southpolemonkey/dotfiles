@@ -255,3 +255,9 @@ dmypy.json
 
 ### Scala ###
 *.metals
+
+
+### static file ### 
+*.jpg
+*.jpeg
+
