@@ -90,3 +90,9 @@ $eval "$(pyenv virtualenv-init -)"
 ## Reference
 
 1. https://sourabhbajaj.com/mac-setup/
+
+## iterm key
+
+to make option+arrow key shortcut work in iterm, go to Profiles-->Keys
+Add ⌥←, Add Action: Send Escape Sequence: Esc+: b
+Add ⌥→, Add Action: Send Escape Sequence: Esc+: f
