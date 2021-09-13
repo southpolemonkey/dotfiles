@@ -3,7 +3,7 @@
 
 # Path to your oh-my-zsh installation.
 # export ZSH="/Users/chenxuanrong/.oh-my-zsh"
-export ZSH="/Users/alexrong/.oh-my-zsh"
+export ZSH="/Users/chenxuan.rong/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -66,7 +66,6 @@ DISABLE_AUTO_UPDATE="true"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   git
-  zsh-syntax-highlighting
   zsh-autosuggestions
   docker
   docker-compose
@@ -154,7 +153,6 @@ echo 'Your External IP: '$publicip
 export PYENV_ROOT="$HOME/.pyenv"
 #export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
 export PATH="$HOME/.jenv/bin:$PATH"
 eval "$(jenv init -)"
 
@@ -332,9 +330,9 @@ export PATH="/usr/local/opt/postgresql@9.6/bin:$PATH"
 alias sp="cd ~/side_project/"
 alias wget="wget --no-check-certificate"
 
-alias up_airflow_dev="aws ec2 start-instances --instance-ids i-070f3b145665c7911"
-alias down_airflow_dev="aws ec2 stop-instances --instance-ids i-070f3b145665c7911"
-alias connect_db="nc -zv analytics-dev.cznmor934jee.ap-southeast-2.rds.amazonaws.com 5432"
+#alias up_airflow_dev="aws ec2 start-instances --instance-ids i-070f3b145665c7911"
+#alias down_airflow_dev="aws ec2 stop-instances --instance-ids i-070f3b145665c7911"
+#alias connect_db="nc -zv analytics-dev.cznmor934jee.ap-southeast-2.rds.amazonaws.com 5432"
 
 complete -o nospace -C /usr/local/bin/terraform terraform
 
@@ -383,8 +381,8 @@ function dbt_run_changed() {
 }
 
 
-export AWS_ACCESS_KEY_ID=$(aws --profile default configure get aws_access_key_id)
-export AWS_SECRET_ACCESS_KEY=$(aws --profile default configure get aws_secret_access_key)
+#export AWS_ACCESS_KEY_ID=$(aws --profile default configure get aws_access_key_id)
+#export AWS_SECRET_ACCESS_KEY=$(aws --profile default configure get aws_secret_access_key)
 
 alias dcu="docker-compose up -d"
 alias dcd="docker-compose down"
@@ -408,3 +406,4 @@ function addword() {
 export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
 
 alias week="date +%V"
+
