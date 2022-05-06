@@ -1,15 +1,5 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+export ZSH="$HOME/.oh-my-zsh"
 
-# Path to your oh-my-zsh installation.
-# export ZSH="/Users/chenxuanrong/.oh-my-zsh"
-export ZSH="/Users/chenxuan.rong/.oh-my-zsh"
-
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-# ZSH_THEME="rongchenxuan"
 ZSH_THEME="robbyrussell"
 
 # Set list of themes to pick from when loading at random
@@ -67,6 +57,7 @@ DISABLE_AUTO_UPDATE="true"
 plugins=(
   git
   zsh-autosuggestions
+  zsh-syntax-highlighting
   docker
   docker-compose
 )
@@ -102,6 +93,18 @@ export LC_ALL=en_AU.UTF-8
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias publicip="curl ipecho.net/plain; echo"
+alias kc="kubectl"
+alias cls_pyc="find . -name '*.pyc' -delete && find . -name "__pycache__" -delete"
+alias ll="ls -l"
+alias ..="cd .."
+alias ...="cd ../.."
+alias os="cat /etc/os-release"
+
+alias week="date +%V"
+alias nas="$HOME/nas"
+alias bt="$HOME/domain"
+alias ge="great_expectations"
 
 # Golang environment variables setup
 export GOPATH=$HOME/go
@@ -115,16 +118,11 @@ export PATH=$PATH:$GOROOT/bin
 # The next line enables shell command completion for gcloud.
 # if [ -f '/Users/chenxuanrong/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/chenxuanrong/google-cloud-sdk/completion.zsh.inc'; fi
 
-# Find public ip address
-alias publicip="curl ipecho.net/plain; echo"
 
 # Zeppelin
 # export ZEPPELIN_HOME=/Users/chenxuanrong/Downloads/zeppelin-0.8.1-bin-all
 # alias start_zeppelin="$ZEPPELIN_HOME/bin/zeppelin-daemon.sh start"
 # alias stop_zeppelin="$ZEPPELIN_HOME/bin/zeppelin-daemon.sh stop"
-
-# aws
-export PATH=/usr/local/bin/python3:$PATH
 
 # The next line enables Confluent command
 # export CONFLUENT_HOME=/Users/chenxuanrong/confluent-5.3.0/confluent
@@ -140,19 +138,11 @@ export PATH=/usr/local/bin/python3:$PATH
 # uninstall by removing these lines or running `tabtab uninstall slss`
 # [[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh
 
-## Check IP address
-function myip(){
-myip="$(ifconfig | grep 'inet.*netmask.*broadcast')"
-lanip="$(echo $myip | awk '{print $2}')"
-publicip="$(echo $myip | awk '{print $6}')"
-echo 'Your Internal IP: '$lanip
-echo 'Your External IP: '$publicip
-}
-
 ## pyenv configuration
 export PYENV_ROOT="$HOME/.pyenv"
-#export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init --path)" >> ~/.zshrc
+
 export PATH="$HOME/.jenv/bin:$PATH"
 eval "$(jenv init -)"
 
@@ -164,77 +154,9 @@ alias tfp="terraform plan"
 alias tfa="terraform apply"
 alias tf="terraform"
 
-# public ip
-myip="$(dig +short myip.opendns.com @resolver1.opendns.com)"
-
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
-# side-project alias
-# alias sp="cd /Users/chenxuanrong/Documents/side_project/"
-
-###-begin-npm-completion-###
-#
-# npm command completion script
-#
-# Installation: npm completion >> ~/.bashrc  (or ~/.zshrc)
-# Or, maybe: npm completion > /usr/local/etc/bash_completion.d/npm
-#
-
-# if type complete &>/dev/null; then
-#   _npm_completion () {
-#     local words cword
-#     if type _get_comp_words_by_ref &>/dev/null; then
-#       _get_comp_words_by_ref -n = -n @ -n : -w words -i cword
-#     else
-#       cword="$COMP_CWORD"
-#       words=("${COMP_WORDS[@]}")
-#     fi
-
-#     local si="$IFS"
-#     IFS=$'\n' COMPREPLY=($(COMP_CWORD="$cword" \
-#                            COMP_LINE="$COMP_LINE" \
-#                            COMP_POINT="$COMP_POINT" \
-#                            npm completion -- "${words[@]}" \
-#                            2>/dev/null)) || return $?
-#     IFS="$si"
-#     if type __ltrim_colon_completions &>/dev/null; then
-#       __ltrim_colon_completions "${words[cword]}"
-#     fi
-#   }
-#   complete -o default -F _npm_completion npm
-# elif type compdef &>/dev/null; then
-#   _npm_completion() {
-#     local si=$IFS
-#     compadd -- $(COMP_CWORD=$((CURRENT-1)) \
-#                  COMP_LINE=$BUFFER \
-#                  COMP_POINT=0 \
-#                  npm completion -- "${words[@]}" \
-#                  2>/dev/null)
-#     IFS=$si
-#   }
-#   compdef _npm_completion npm
-# elif type compctl &>/dev/null; then
-#   _npm_completion () {
-#     local cword line point words si
-#     read -Ac words
-#     read -cn cword
-#     let cword-=1
-#     read -l line
-#     read -ln point
-#     si="$IFS"
-#     IFS=$'\n' reply=($(COMP_CWORD="$cword" \
-#                        COMP_LINE="$line" \
-#                        COMP_POINT="$point" \
-#                        npm completion -- "${words[@]}" \
-#                        2>/dev/null)) || return $?
-#     IFS="$si"
-#   }
-#   compctl -K _npm_completion npm
-# fi
-# ###-end-npm-completion-###
-#
-#
- function gssh() {
+function gssh() {
   readonly local name="$1"
   local filter result instance_name zone
 
@@ -251,10 +173,6 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
     printf "❌  Instance not found\\n"
   fi
 }
-
-alias cls_pyc="find . -name '*.pyc' -delete && find . -name "__pycache__" -delete"
- 
-alias kc="kubectl"
 
 zk_up() {
   zookeeper-server-start /usr/local/etc/kafka/zookeeper.properties  > /dev/null 2>&1 &
@@ -282,11 +200,7 @@ kafka_down() {
 export LDFLAGS="-L/usr/local/opt/ncurses/lib"
 export CPPFLAGS="-I/usr/local/opt/ncurses/include"
 
-alias ll="ls -l"
-alias ..="cd .."
-alias ...="cd ../.."
 
-alias os="cat /etc/os-release"
 
 function list_users() {
   if [[ "$OSTYPE" == "linux-gnu"* ]]; then cut -d: -f1 /etc/passwd;
@@ -324,6 +238,7 @@ compctl -K _pip_completion pip
 autoload -U +X compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
 source ~/.dbt-completion.bash
+
 export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
 export PATH="/usr/local/opt/postgresql@9.6/bin:$PATH"
 
@@ -405,5 +320,19 @@ function addword() {
 # added by Snowflake SnowSQL installer v1.2
 export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
 
-alias week="date +%V"
+autoload -U +X compinit && compinit
+autoload -U +X bashcompinit && bashcompinit
+source ~/.dbt-completion.bash
 
+# https://github.com/apache/airflow/issues/12808
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+export PATH="/usr/local/opt/openjdk@8/bin:$PATH"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+autoload bashcompinit
+bashcompinit
+
+source /usr/local/Cellar/goto/2.0.0/goto.sh
