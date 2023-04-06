@@ -1,5 +1,15 @@
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# Path to your oh-my-zsh installation.
+# export ZSH="/Users/chenxuanrong/.oh-my-zsh"
 export ZSH="$HOME/.oh-my-zsh"
 
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+# ZSH_THEME="rongchenxuan"
 ZSH_THEME="robbyrussell"
 
 # Set list of themes to pick from when loading at random
@@ -56,8 +66,8 @@ DISABLE_AUTO_UPDATE="true"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   git
-  zsh-autosuggestions
   zsh-syntax-highlighting
+  zsh-autosuggestions
   docker
   docker-compose
 )
@@ -93,18 +103,6 @@ export LC_ALL=en_AU.UTF-8
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias publicip="curl ipecho.net/plain; echo"
-alias kc="kubectl"
-alias cls_pyc="find . -name '*.pyc' -delete && find . -name "__pycache__" -delete"
-alias ll="ls -l"
-alias ..="cd .."
-alias ...="cd ../.."
-alias os="cat /etc/os-release"
-
-alias week="date +%V"
-alias nas="$HOME/nas"
-alias bt="$HOME/domain"
-alias ge="great_expectations"
 
 # Golang environment variables setup
 export GOPATH=$HOME/go
@@ -118,11 +116,16 @@ export PATH=$PATH:$GOROOT/bin
 # The next line enables shell command completion for gcloud.
 # if [ -f '/Users/chenxuanrong/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/chenxuanrong/google-cloud-sdk/completion.zsh.inc'; fi
 
+# Find public ip address
+alias publicip="curl ipecho.net/plain; echo"
 
 # Zeppelin
 # export ZEPPELIN_HOME=/Users/chenxuanrong/Downloads/zeppelin-0.8.1-bin-all
 # alias start_zeppelin="$ZEPPELIN_HOME/bin/zeppelin-daemon.sh start"
 # alias stop_zeppelin="$ZEPPELIN_HOME/bin/zeppelin-daemon.sh stop"
+
+# aws
+export PATH=/usr/local/bin/python3:$PATH
 
 # The next line enables Confluent command
 # export CONFLUENT_HOME=/Users/chenxuanrong/confluent-5.3.0/confluent
@@ -138,11 +141,19 @@ export PATH=$PATH:$GOROOT/bin
 # uninstall by removing these lines or running `tabtab uninstall slss`
 # [[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh
 
+## Check IP address
+function myip(){
+myip="$(ifconfig | grep 'inet.*netmask.*broadcast')"
+lanip="$(echo $myip | awk '{print $2}')"
+publicip="$(echo $myip | awk '{print $6}')"
+echo 'Your Internal IP: '$lanip
+echo 'Your External IP: '$publicip
+}
+
 ## pyenv configuration
 export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init --path)" >> ~/.zshrc
-
+#export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
 export PATH="$HOME/.jenv/bin:$PATH"
 eval "$(jenv init -)"
 
@@ -154,9 +165,77 @@ alias tfp="terraform plan"
 alias tfa="terraform apply"
 alias tf="terraform"
 
+# public ip
+myip="$(dig +short myip.opendns.com @resolver1.opendns.com)"
+
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
-function gssh() {
+# side-project alias
+# alias sp="cd /Users/chenxuanrong/Documents/side_project/"
+
+###-begin-npm-completion-###
+#
+# npm command completion script
+#
+# Installation: npm completion >> ~/.bashrc  (or ~/.zshrc)
+# Or, maybe: npm completion > /usr/local/etc/bash_completion.d/npm
+#
+
+# if type complete &>/dev/null; then
+#   _npm_completion () {
+#     local words cword
+#     if type _get_comp_words_by_ref &>/dev/null; then
+#       _get_comp_words_by_ref -n = -n @ -n : -w words -i cword
+#     else
+#       cword="$COMP_CWORD"
+#       words=("${COMP_WORDS[@]}")
+#     fi
+
+#     local si="$IFS"
+#     IFS=$'\n' COMPREPLY=($(COMP_CWORD="$cword" \
+#                            COMP_LINE="$COMP_LINE" \
+#                            COMP_POINT="$COMP_POINT" \
+#                            npm completion -- "${words[@]}" \
+#                            2>/dev/null)) || return $?
+#     IFS="$si"
+#     if type __ltrim_colon_completions &>/dev/null; then
+#       __ltrim_colon_completions "${words[cword]}"
+#     fi
+#   }
+#   complete -o default -F _npm_completion npm
+# elif type compdef &>/dev/null; then
+#   _npm_completion() {
+#     local si=$IFS
+#     compadd -- $(COMP_CWORD=$((CURRENT-1)) \
+#                  COMP_LINE=$BUFFER \
+#                  COMP_POINT=0 \
+#                  npm completion -- "${words[@]}" \
+#                  2>/dev/null)
+#     IFS=$si
+#   }
+#   compdef _npm_completion npm
+# elif type compctl &>/dev/null; then
+#   _npm_completion () {
+#     local cword line point words si
+#     read -Ac words
+#     read -cn cword
+#     let cword-=1
+#     read -l line
+#     read -ln point
+#     si="$IFS"
+#     IFS=$'\n' reply=($(COMP_CWORD="$cword" \
+#                        COMP_LINE="$line" \
+#                        COMP_POINT="$point" \
+#                        npm completion -- "${words[@]}" \
+#                        2>/dev/null)) || return $?
+#     IFS="$si"
+#   }
+#   compctl -K _npm_completion npm
+# fi
+# ###-end-npm-completion-###
+#
+#
+ function gssh() {
   readonly local name="$1"
   local filter result instance_name zone
 
@@ -173,6 +252,10 @@ function gssh() {
     printf "❌  Instance not found\\n"
   fi
 }
+
+alias cls_pyc="find . -name '*.pyc' -delete && find . -name "__pycache__" -delete"
+ 
+alias kc="kubectl"
 
 zk_up() {
   zookeeper-server-start /usr/local/etc/kafka/zookeeper.properties  > /dev/null 2>&1 &
@@ -200,7 +283,12 @@ kafka_down() {
 export LDFLAGS="-L/usr/local/opt/ncurses/lib"
 export CPPFLAGS="-I/usr/local/opt/ncurses/include"
 
+alias ll="ls -l"
+alias ..="cd .."
+alias ...="cd ../.."
 
+alias bt="cd /Users/alexrong/brighte/"
+alias os="cat /etc/os-release"
 
 function list_users() {
   if [[ "$OSTYPE" == "linux-gnu"* ]]; then cut -d: -f1 /etc/passwd;
@@ -238,16 +326,15 @@ compctl -K _pip_completion pip
 autoload -U +X compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
 source ~/.dbt-completion.bash
-
 export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
 export PATH="/usr/local/opt/postgresql@9.6/bin:$PATH"
 
 alias sp="cd ~/side_project/"
 alias wget="wget --no-check-certificate"
 
-#alias up_airflow_dev="aws ec2 start-instances --instance-ids i-070f3b145665c7911"
-#alias down_airflow_dev="aws ec2 stop-instances --instance-ids i-070f3b145665c7911"
-#alias connect_db="nc -zv analytics-dev.cznmor934jee.ap-southeast-2.rds.amazonaws.com 5432"
+alias up_airflow_dev="aws ec2 start-instances --instance-ids i-070f3b145665c7911"
+alias down_airflow_dev="aws ec2 stop-instances --instance-ids i-070f3b145665c7911"
+alias connect_db="nc -zv analytics-dev.cznmor934jee.ap-southeast-2.rds.amazonaws.com 5432"
 
 complete -o nospace -C /usr/local/bin/terraform terraform
 
@@ -296,8 +383,8 @@ function dbt_run_changed() {
 }
 
 
-#export AWS_ACCESS_KEY_ID=$(aws --profile default configure get aws_access_key_id)
-#export AWS_SECRET_ACCESS_KEY=$(aws --profile default configure get aws_secret_access_key)
+export AWS_ACCESS_KEY_ID=$(aws --profile default configure get aws_access_key_id)
+export AWS_SECRET_ACCESS_KEY=$(aws --profile default configure get aws_secret_access_key)
 
 alias dcu="docker-compose up -d"
 alias dcd="docker-compose down"
@@ -317,22 +404,187 @@ function addword() {
   echo $1 >> ~/study_notes/english.txt
 }
 
+
+alias speedtest-cli=/Users/alexrong/side_project/speedtest-cli-demo/speedtest-cli-demo/bin/speedtest-cli
+
 # added by Snowflake SnowSQL installer v1.2
 export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
 
-autoload -U +X compinit && compinit
-autoload -U +X bashcompinit && bashcompinit
-source ~/.dbt-completion.bash
+alias week="date +%V"
+#compdef _avc avc
 
-# https://github.com/apache/airflow/issues/12808
-export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
-export PATH="/usr/local/opt/openjdk@8/bin:$PATH"
+# zsh completion for avc                                  -*- shell-script -*-
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+__avc_debug()
+{
+    local file="$BASH_COMP_DEBUG_FILE"
+    if [[ -n ${file} ]]; then
+        echo "$*" >> "${file}"
+    fi
+}
 
-autoload bashcompinit
-bashcompinit
+_avc()
+{
+    local shellCompDirectiveError=1
+    local shellCompDirectiveNoSpace=2
+    local shellCompDirectiveNoFileComp=4
+    local shellCompDirectiveFilterFileExt=8
+    local shellCompDirectiveFilterDirs=16
 
-source /usr/local/Cellar/goto/2.0.0/goto.sh
+    local lastParam lastChar flagPrefix requestComp out directive comp lastComp noSpace
+    local -a completions
+
+    __avc_debug "\n========= starting completion logic =========="
+    __avc_debug "CURRENT: ${CURRENT}, words[*]: ${words[*]}"
+
+    # The user could have moved the cursor backwards on the command-line.
+    # We need to trigger completion from the $CURRENT location, so we need
+    # to truncate the command-line ($words) up to the $CURRENT location.
+    # (We cannot use $CURSOR as its value does not work when a command is an alias.)
+    words=("${=words[1,CURRENT]}")
+    __avc_debug "Truncated words[*]: ${words[*]},"
+
+    lastParam=${words[-1]}
+    lastChar=${lastParam[-1]}
+    __avc_debug "lastParam: ${lastParam}, lastChar: ${lastChar}"
+
+    # For zsh, when completing a flag with an = (e.g., avc -n=<TAB>)
+    # completions must be prefixed with the flag
+    setopt local_options BASH_REMATCH
+    if [[ "${lastParam}" =~ '-.*=' ]]; then
+        # We are dealing with a flag with an =
+        flagPrefix="-P ${BASH_REMATCH}"
+    fi
+
+    # Prepare the command to obtain completions
+    requestComp="${words[1]} __complete ${words[2,-1]}"
+    if [ "${lastChar}" = "" ]; then
+        # If the last parameter is complete (there is a space following it)
+        # We add an extra empty parameter so we can indicate this to the go completion code.
+        __avc_debug "Adding extra empty parameter"
+        requestComp="${requestComp} \"\""
+    fi
+
+    __avc_debug "About to call: eval ${requestComp}"
+
+    # Use eval to handle any environment variables and such
+    out=$(eval ${requestComp} 2>/dev/null)
+    __avc_debug "completion output: ${out}"
+
+    # Extract the directive integer following a : from the last line
+    local lastLine
+    while IFS='\n' read -r line; do
+        lastLine=${line}
+    done < <(printf "%s\n" "${out[@]}")
+    __avc_debug "last line: ${lastLine}"
+
+    if [ "${lastLine[1]}" = : ]; then
+        directive=${lastLine[2,-1]}
+        # Remove the directive including the : and the newline
+        local suffix
+        (( suffix=${#lastLine}+2))
+        out=${out[1,-$suffix]}
+    else
+        # There is no directive specified.  Leave $out as is.
+        __avc_debug "No directive found.  Setting do default"
+        directive=0
+    fi
+
+    __avc_debug "directive: ${directive}"
+    __avc_debug "completions: ${out}"
+    __avc_debug "flagPrefix: ${flagPrefix}"
+
+    if [ $((directive & shellCompDirectiveError)) -ne 0 ]; then
+        __avc_debug "Completion received error. Ignoring completions."
+        return
+    fi
+
+    while IFS='\n' read -r comp; do
+        if [ -n "$comp" ]; then
+            # If requested, completions are returned with a description.
+            # The description is preceded by a TAB character.
+            # For zsh's _describe, we need to use a : instead of a TAB.
+            # We first need to escape any : as part of the completion itself.
+            comp=${comp//:/\\:}
+
+            local tab=$(printf '\t')
+            comp=${comp//$tab/:}
+
+            __avc_debug "Adding completion: ${comp}"
+            completions+=${comp}
+            lastComp=$comp
+        fi
+    done < <(printf "%s\n" "${out[@]}")
+
+    if [ $((directive & shellCompDirectiveNoSpace)) -ne 0 ]; then
+        __avc_debug "Activating nospace."
+        noSpace="-S ''"
+    fi
+
+    if [ $((directive & shellCompDirectiveFilterFileExt)) -ne 0 ]; then
+        # File extension filtering
+        local filteringCmd
+        filteringCmd='_files'
+        for filter in ${completions[@]}; do
+            if [ ${filter[1]} != '*' ]; then
+                # zsh requires a glob pattern to do file filtering
+                filter="\*.$filter"
+            fi
+            filteringCmd+=" -g $filter"
+        done
+        filteringCmd+=" ${flagPrefix}"
+
+        __avc_debug "File filtering command: $filteringCmd"
+        _arguments '*:filename:'"$filteringCmd"
+    elif [ $((directive & shellCompDirectiveFilterDirs)) -ne 0 ]; then
+        # File completion for directories only
+        local subdir
+        subdir="${completions[1]}"
+        if [ -n "$subdir" ]; then
+            __avc_debug "Listing directories in $subdir"
+            pushd "${subdir}" >/dev/null 2>&1
+        else
+            __avc_debug "Listing directories in ."
+        fi
+
+        local result
+        _arguments '*:dirname:_files -/'" ${flagPrefix}"
+        result=$?
+        if [ -n "$subdir" ]; then
+            popd >/dev/null 2>&1
+        fi
+        return $result
+    else
+        __avc_debug "Calling _describe"
+        if eval _describe "completions" completions $flagPrefix $noSpace; then
+            __avc_debug "_describe found some completions"
+
+            # Return the success of having called _describe
+            return 0
+        else
+            __avc_debug "_describe did not find completions."
+            __avc_debug "Checking if we should do file completion."
+            if [ $((directive & shellCompDirectiveNoFileComp)) -ne 0 ]; then
+                __avc_debug "deactivating file completion"
+
+                # We must return an error code here to let zsh know that there were no
+                # completions found by _describe; this is what will trigger other
+                # matching algorithms to attempt to find completions.
+                # For example zsh can match letters in the middle of words.
+                return 1
+            else
+                # Perform file completion
+                __avc_debug "Activating file completion"
+
+                # We must return the result of this command, so it must be the
+                # last command, or else we must store its result to return it.
+                _arguments '*:filename:_files'" ${flagPrefix}"
+            fi
+        fi
+    fi
+}
+
+# don't run the completion function when being source-ed or eval-ed
+if [ "$funcstack[1]" = "_avc" ]; then
+    _avc
+fi

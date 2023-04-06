@@ -22,6 +22,7 @@ Plug 'tpope/vim-sensible'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vim-airline/vim-airline'
 Plug 'vim-scripts/renamer.vim'
+Plug 'lepture/vim-jinja'
 
 set rtp+=/usr/local/opt/fzf
 Plug 'junegunn/fzf.vim'
@@ -201,3 +202,9 @@ nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+
+" dbt+jinja highlight
+" https://discourse.getdbt.com/t/syntax-highlighting-sql-linting/15
+au BufNewFile,BufRead *.sql set ft=dbt
+au BufNewFile,BufRead *.html,*.htm,*.shtml,*.stm set ft=jinja
+
