@@ -37,9 +37,16 @@ $ git config --global user.email "your_email@youremail.com"
 $ git config --global credential.helper osxkeychain
 
 # generate ssh key
-$ ssh-keygen -t rsa -C "your_email@example.com"
+$ ssh-keygen -t rsa -C "your_email@example.com" ~/.ssh/ssh.pub
 # add key to ssh agent
 $ eval "$(ssh-agent -s)"
+
+# set ssh authentication
+$ git clone remote
+$ pbcopy < ~/.ssh/ssh.pub
+# paste into github ssh key
+# Add github's ssh keyprint to ~/.ssh/known_hosts
+# https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints
 ```
 
 6. clone dotfiles repo and install via dotbot
